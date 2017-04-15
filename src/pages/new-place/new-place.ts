@@ -9,7 +9,7 @@ import { PlacesService } from "../../services/places.service";
   templateUrl: 'new-place.html'
 })
 export class NewPlacePage {
-  location: {lat: number, lng: number} = {lat: 0, lng: 0};
+  location: {lat: number, lng: number, fromUser: boolean} = {lat: 0, lng: 0, fromUser: false};
 
   constructor(private placesService: PlacesService, private navCtrl: NavController) {}
 
@@ -22,9 +22,10 @@ export class NewPlacePage {
     Geolocation.getCurrentPosition()
       .then(
         (location) => {
-          console.log('Location fetched successfully');
+          console.log('Location fetched successfully (' + location.coords.latitude + ', ' + location.coords.longitude + ')');
           this.location.lat = location.coords.latitude;
           this.location.lng = location.coords.longitude;
+          this.location.fromUser = true;
         }
       )
       .catch(
